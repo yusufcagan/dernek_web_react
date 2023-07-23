@@ -10,7 +10,7 @@ const LoginScreen: React.FC = () => {
     // Burada giriş işlemlerini yapabilirsiniz
     console.log("Kullanici adi:", username);
     console.log("Sifre:", password);
-    navigate("UserHaberler");
+    navigate("AdminHaberler");
   };
 
   return (
