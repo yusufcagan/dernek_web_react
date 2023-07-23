@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const LoginScreen = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const LoginScreen: React.FC = () => {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     // Burada giriş işlemlerini yapabilirsiniz
     console.log("Kullanici adi:", username);
     console.log("Sifre:", password);
+    navigate("UserHaberler");
   };
 
   return (
@@ -18,7 +20,7 @@ const LoginScreen = () => {
       </h1>
       <div className="bg-white p-8 rounded-lg shadow-md transform hover:scale-105 transition-transform">
         <h2 className="mb-6 text-3xl font-extrabold text-center text-gray-900">
-          Create Account
+          Log in to your account
         </h2>
         <div className="rounded-md shadow-sm -space-y-px">
           <div>
@@ -61,13 +63,16 @@ const LoginScreen = () => {
             onClick={handleLogin}
             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Sign In
+            Log in
           </button>
         </div>
         <div className="mt-4 text-sm text-center">
-          <span>do you have an account?</span>
-          <Link to="/" className="ml-1 text-indigo-600 hover:text-indigo-500">
-            Login
+          <span>Don't have an account yet?</span>
+          <Link
+            to="register"
+            className="ml-1 text-indigo-600 hover:text-indigo-500"
+          >
+            Sign up
           </Link>
         </div>
       </div>

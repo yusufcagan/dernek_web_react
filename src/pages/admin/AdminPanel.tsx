@@ -1,7 +1,7 @@
 import React from "react";
 import SideMenu from "../../components/SideMenu";
 
-export default function AdminPanel() {
+const AdminPanel: React.FC = () => {
   return (
     <div className="flex flex-row items-center min-h-screen bg-gray-100">
       <SideMenu />
@@ -10,4 +10,6 @@ export default function AdminPanel() {
       </div>
     </div>
   );
-}
+};
+
+export default AdminPanel;
