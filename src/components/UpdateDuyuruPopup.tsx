@@ -87,7 +87,7 @@ const UpdateDuyuruPopup: React.FC<props> = ({
           />
         </div>
         <div className="mb-5 flex flex-col">
-          <label>Haber Linki:</label>
+          <label>Duyuru Linki:</label>
           <button className=" rounded-lg"></button>
         </div>
         <div className="w-full flex flex-row justify-between">

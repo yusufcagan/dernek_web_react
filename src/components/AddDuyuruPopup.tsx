@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { post } from "../api/api";
+import axios from "axios";
 
 interface props {
   setAddPopup: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,6 +10,7 @@ const AddDuyuruPopup: React.FC<props> = ({ setAddPopup }) => {
   const [icerik, setIcerik] = useState<string>("");
   const [gecerlilikTarihi, setGecerlilikTarihi] = useState<string>("");
   const [resimYolu, setResimYolu] = useState<string>("");
+  const [resim, setResim] = useState<File | null>(null);
 
   const handleCloseModal = () => {
     setAddPopup(false);
@@ -18,12 +20,29 @@ const AddDuyuruPopup: React.FC<props> = ({ setAddPopup }) => {
     setResimYolu("");
   };
 
-  const addDuyuru = () => {
+  const addDuyuru = async () => {
+    var reResimYolu;
+
+    if (!resim) {
+      console.error("Lütfen bir resim seçin!");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("resim", resim);
+    await axios
+      .post("http://localhost:8080/api/duyurular/resim-yukle", formData)
+      .then((response) => {
+        console.log("succes", response);
+        reResimYolu = response.data;
+      })
+      .catch((error) => console.error(error));
+
     post("/duyurular", {
       konu: konu,
       icerik: icerik,
       gecerlilikTarihi: gecerlilikTarihi,
-      resimYolu: resimYolu,
+      resimYolu: reResimYolu,
     })
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
@@ -33,6 +52,26 @@ const AddDuyuruPopup: React.FC<props> = ({ setAddPopup }) => {
     setIcerik("");
     setGecerlilikTarihi("");
     setResimYolu("");
+  };
+
+  const selectResim = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setResim(e.target.files[0]);
+    }
+    //resimYukle(formData);
+  };
+  const onresim = async () => {
+    if (!resim) {
+      console.error("Lütfen bir resim seçin!");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("resim", resim);
+    await axios
+      .post("http://localhost:8080/api/duyurular/resim-yukle", formData)
+      .then((response) => console.log("succes:", response.data))
+      .catch((error) => console.error(error));
   };
 
   return (
@@ -67,7 +106,8 @@ const AddDuyuruPopup: React.FC<props> = ({ setAddPopup }) => {
         </div>
         <div className="mb-5 flex flex-col">
           <label>Resim:</label>
-          <button className="rounded-lg bg-white">Resim Seç</button>
+          <input type="file" onChange={selectResim} />
+          <button onClick={onresim}>ekel</button>
         </div>
         <div className="w-full flex flex-row justify-between">
           <button
